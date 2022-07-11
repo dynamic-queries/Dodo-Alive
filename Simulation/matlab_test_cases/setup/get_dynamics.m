@@ -1,0 +1,1 @@
+function dynamics = get_dynamics(num_jl, len_links)
