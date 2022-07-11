@@ -1,5 +1,6 @@
-function func_plotting(format, over_time, x_list, t_list)
+function func_plotting(format, x_list, t_list, over_time)
     
+    hold on
     switch format
         case 'full'
             x = x_list{1};
@@ -13,6 +14,7 @@ function func_plotting(format, over_time, x_list, t_list)
             axis([0 max(s(:,1))+0.01 0 max(x(:,2))+0.01])
             title('Trajectory plot (full)')
             grid
+            hold off
             fprintf("Total time: %.4f\n", t(end))
 
         case 'steps'
@@ -36,6 +38,7 @@ function func_plotting(format, over_time, x_list, t_list)
             axis([0 max(s{num_steps}(:,1))+0.01 0 max_y+0.01])
             title('Trajectory plot (steps)')
             grid
+            hold off
             legend(legend_list)
 
         case 'phases'
@@ -64,10 +67,10 @@ function func_plotting(format, over_time, x_list, t_list)
             axis([0 max(s{num_phases}(:,1))+0.01 0 max_y+0.01])
             title('Trajectory plot (phases)')
             grid
+            hold off
             legend('Flight phase', 'Stance phase')
 
-
-        case 'detailed'
+        case 'detail'
             x = x_list{4};
             t = t_list{4};
             if over_time 
@@ -97,5 +100,8 @@ function func_plotting(format, over_time, x_list, t_list)
             title('Trajectory plot (detailed)')
             grid
             legend('Flight phase (from apex)', 'Stance phase', 'Flight phase (to apex)')
+
+        otherwise
+            disp("Skipping plotting.")
 
     end
