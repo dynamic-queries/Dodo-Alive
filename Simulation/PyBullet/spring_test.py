@@ -29,7 +29,7 @@ spring_coeff = 10 # spring coefficient in [N/degrees]
 counter = 0 # set counter to visualize sim parameters every k'th iter
 
 
-# External force simulating spring torque
+# External force to debug
 torqueId = p.addUserDebugParameter('torque', rangeMin=-2000, rangeMax=2000, startValue=0) # [Nm]
 
 # Load objects
@@ -50,23 +50,23 @@ while 1:
 
 
     # Get current joint angle and calculate spring torque
-    jointAngle = p.getJointState(bodyUniqueId=robotId, jointIndex=1)[0] * 180 / math.pi # convert rad to degrees
-    torque = -jointAngle * spring_coeff
+    jointAngle = p.getJointState(bodyUniqueId=robotId, jointIndex=1)[0] # this returns a list, we need 1st element
+    jointAngle = jointAngle * 180 / math.pi # convert rad to degrees
+    torque = - jointAngle * spring_coeff
 
-    # Set reaction and action torques
+    # Set input, action and reaction torques
     torque_in = p.readUserDebugParameter(torqueId) # read input torque
-
+    torque_ext = [torque_in, 0, 0] # create torque vector
     torque_act = [torque, 0, 0]
     torque_react = [-torque, 0, 0]
-    torque_ext = [torque_in, 0, 0]
     
 
-
+    # Apply torques on opposing links
     p.applyExternalTorque(
         objectUniqueId=robotId,
         linkIndex=0,
         torqueObj=torque_act,
-        flags=p.WORLD_FRAME,
+        flags=p.WORLD_FRAME, # Joint axes are on the x-axis planar robot
     )
 
     p.applyExternalTorque(
@@ -87,7 +87,6 @@ while 1:
     if counter % 100 == 0:
         #print(p.getLinkState(robotId, robotEndEffectorIndex)[0])
         #print(jointAngle)
-
         counter = 0 # reset counter
 
     counter += 1
