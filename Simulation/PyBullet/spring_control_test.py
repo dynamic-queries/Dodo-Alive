@@ -1,4 +1,6 @@
-# Our test file for seeing how position control works
+"""Our test file for seeing how position control works with the spring added.
+This is for a single double pendulum with a spring between the two links.
+"""
 
 import pybullet as p
 import time
