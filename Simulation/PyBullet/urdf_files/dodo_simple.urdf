@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<robot name="Dodo">
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+  
+  
+  <!-- LINKS -->
+ 
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.8 0.8 0.2"/>
+      </geometry>
+	  <origin rpy="0 0 0" xyz="0 0 0"/>
+	  <material name="blue"/>
+    </visual>
+	
+	<collision>
+      <geometry>
+        <box size="0.8 0.8 0.2"/>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+      </geometry>
+    </collision>
+  </link>
+  
+   <link name="link_1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length= "1.0"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.5"/>
+	  <material name="white"/>
+    </visual>
+	<collision>
+      <geometry>
+        <cylinder radius="0.1" length="1.0"/>
+      </geometry>
+	  <origin rpy="0 0 0" xyz="0 0 -0.5"/>
+    </collision>
+	<inertial>
+      <mass value="10"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="${length*length*mass/3}" iyz="0.0" izz="${length*length*mass/3}"/>
+    </inertial>
+  </link>
+  
+  <link name="link_2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="1.0"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.5"/>
+	  <material name="red"/>
+    </visual>
+	<collision>
+      <geometry>
+        <cylinder radius="0.1" length="1.0"/>
+      </geometry>
+	  <origin rpy="0 0 0" xyz="0 0 -0.5"/>
+    </collision>
+	<inertial>
+      <mass value="10"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="${length*length*mass/3}" iyz="0.0" izz="${length*length*mass/3}"/>
+    </inertial>
+  </link>
+  
+    <link name="toe">
+    <visual>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.1"/>
+	  <material name="blue"/>
+    </visual>
+	<collision>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+	  <origin rpy="0 0 0" xyz="0 0 -0.1"/>
+    </collision>
+	<inertial>
+      <mass value="5"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="${length*length*mass/3}" iyz="0.0" izz="${length*length*mass/3}"/>
+    </inertial>
+  </link>
+  
+  <!-- JOINTS -->
+  
+  <joint name="base_to_link_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+	<limit effort="10" velocity="10"/>
+    <origin xyz="0 0 -0.1"/>
+	<axis xyz="1 0 0"/>
+	<dynamics damping="0" friction="0"/>
+  </joint>
+  
+  <joint name="link_1_to_link_2" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+	<limit effort="10" velocity="10"/>
+    <origin xyz="0 0 -1.0"/>
+	<axis xyz="1 0 0"/>
+	<dynamics damping="0" friction="0"/>
+  </joint>
+  
+  <joint name="link_2_to_toe" type="fixed">
+    <parent link="link_2"/>
+    <child link="toe"/>
+    <origin xyz="0 0 -1.0"/>
+  </joint>
+  
+  
+
+  
+</robot>
