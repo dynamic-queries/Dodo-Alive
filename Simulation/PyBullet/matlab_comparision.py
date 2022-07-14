@@ -56,7 +56,6 @@ with open('data/q2.csv', newline='') as csvfile:
             q2.append(float(element)) 
 
 
-
 for idx in range(len(q1)):
     # Step simulation and pause
     p.stepSimulation()
@@ -70,7 +69,7 @@ for idx in range(len(q1)):
             bodyIndex=robotId,
             jointIndex=jointIdx,
             controlMode=p.POSITION_CONTROL,
-            targetPosition=q_target,
+            targetPosition=q_target[jointIdx],
             force=maxForce
         )
 
@@ -79,4 +78,4 @@ for idx in range(len(q1)):
         counter = 0 # reset counter
 
     counter += 1
-     
+    

@@ -1,5 +1,5 @@
 import csv
-
+import numpy
 
 
 # Read in joint trajectories from csv files
@@ -11,4 +11,4 @@ with open('data/q1.csv', newline='') as csvfile:
         for element in row: # need two forloops just because of csv file structure
             q1.append(float(element)) # add the numbers to our python list
 
-print(q1[0])
+print(q1)
