@@ -25,7 +25,7 @@ ballStartPos = [0, 5, 0.3]
 ballStartOrientation = p.getQuaternionFromEuler([0,0,0])
 
 maxForce = 1000 # max motor force
-spring_coeff = 5 # spring coefficient in [N/degrees]
+spring_coeff = 10 # spring coefficient in [N/degrees]
 
 counter = 0 # set counter to visualize sim parameters every k'th iter
 

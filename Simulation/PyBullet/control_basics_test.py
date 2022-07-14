@@ -1,4 +1,4 @@
-# Our test file for seeing how position control works
+"""Our test file for seeing how position control works"""
 
 import pybullet as p
 import time
@@ -7,20 +7,15 @@ import pybullet_data
 
 
 physicsClient = p.connect(p.GUI)
-
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
 # Setup environment
 p.setGravity(0,0,-10)
 planeId = p.loadURDF("plane.urdf")
 
-
 # Set parameters
 startPos = [0, 0, 2.5]
 startOrientation = p.getQuaternionFromEuler([0,0,0])
-
-ballStartPos = [0, 5, 0.3]
-ballStartOrientation = p.getQuaternionFromEuler([0,0,0])
 
 maxForce = 1000 # max motor force
 
@@ -31,18 +26,14 @@ x_target = p.addUserDebugParameter('x_d', rangeMin=-1.6, rangeMax=1.6, startValu
 y_target = p.addUserDebugParameter('y_d', rangeMin=-1.6, rangeMax=1.6, startValue=0)
 z_target = p.addUserDebugParameter('z_d', rangeMin=0, rangeMax=3, startValue=0)
 
-
 # Load objects
 robotId = p.loadURDF("urdf_files/dodo_simple.urdf", startPos, startOrientation, useFixedBase=True)
 
 numJoints = p.getNumJoints(robotId)
 robotEndEffectorIndex = 2 # link counting starts from 0, base link doesn't count
 
-
 # Set center of mass frame (loadURDF sets the pos and orientation of link frame)
 p.resetBasePositionAndOrientation(robotId, startPos, startOrientation)
-
-
 
 while 1:
     # Step simulation and pause
