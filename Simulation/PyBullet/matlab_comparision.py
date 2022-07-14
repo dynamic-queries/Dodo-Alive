@@ -3,6 +3,8 @@ trajectory between our MATLAB simulation and a simulation we do on PyBullet.
 
 The results on MATLAB were generated analytically and the PyBullet simulations 
 use the default position controller from Bullet.
+
+TODO: still WIP
 """
 import pybullet as p
 import time
@@ -40,6 +42,14 @@ robotEndEffectorIndex = 2 # link counting starts from 0, base link doesn't count
 p.resetBasePositionAndOrientation(robotId, startPos, startOrientation)
 
 
+# Reset first joint state to match matlab simulations (pointing left not down)
+p.resetJointState(
+    bodyUniqueId=robotId,
+    jointIndex=0,
+    targetValue=-math.pi/2, # angle in radians
+)
+
+
 # Read in joint trajectories from csv files
 q1 = [] 
 q2 = [] 
@@ -47,7 +57,7 @@ with open('data/q1.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter='\t')
     for row in reader:
         for element in row: # need two forloops just because of csv file structure
-            q1.append(float(element)) # add the numbers to our python list
+            q1.append(float(element) - math.pi) # add the numbers to our python list
 
 with open('data/q2.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter='\t')
@@ -61,7 +71,13 @@ for idx in range(len(q1)):
     p.stepSimulation()
     time.sleep(1/240)
 
-    q_target = [q1[idx], q2[idx]]
+    
+    if counter >= len(q1):
+        time.sleep(20)
+    else:
+        q_target = [q1[counter], q2[counter]]
+
+    counter += 1
 
     # Set control
     for jointIdx in range(numJoints-1): # go through all joints except final fixed one
@@ -73,9 +89,4 @@ for idx in range(len(q1)):
             force=maxForce
         )
 
-    if counter % 250 == 0:
-        print(p.getLinkState(robotId, robotEndEffectorIndex)[0])
-        counter = 0 # reset counter
-
-    counter += 1
     

@@ -1,5 +1,4 @@
 import csv
-import numpy
 
 
 # Read in joint trajectories from csv files
@@ -12,3 +11,4 @@ with open('data/q1.csv', newline='') as csvfile:
             q1.append(float(element)) # add the numbers to our python list
 
 print(q1)
+print(len(q1))

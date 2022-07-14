@@ -74,8 +74,6 @@ while 1:
     torque_act = [torque, 0, 0]
     torque_react = [-torque, 0, 0]
 
-
-
     # Set control
     for jointIdx in range(numJoints-1): # go through all joints except final fixed one
         p.setJointMotorControl2(
