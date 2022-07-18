@@ -35,6 +35,15 @@ robotEndEffectorIndex = 2 # link counting starts from 0, base link doesn't count
 # Set center of mass frame (loadURDF sets the pos and orientation of link frame)
 p.resetBasePositionAndOrientation(robotId, startPos, startOrientation)
 
+# Set control for toe joint to keep it straight
+p.setJointMotorControl2(
+    bodyIndex=robotId,
+    jointIndex=robotEndEffectorIndex,
+    controlMode=p.POSITION_CONTROL,
+    targetPosition=0,
+    force=maxForce
+)
+
 while 1:
     # Step simulation and pause
     p.stepSimulation()
@@ -55,7 +64,7 @@ while 1:
         )
 
     # Set control
-    for jointIdx in range(numJoints-1): # go through all joints except final fixed one
+    for jointIdx in range(numJoints-1): # go through all joints except final toe joint
         p.setJointMotorControl2(
             bodyIndex=robotId,
             jointIndex=jointIdx,
