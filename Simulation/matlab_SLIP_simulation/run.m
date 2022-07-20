@@ -6,9 +6,9 @@ clc; clear all;
 %--------------------------------------------------------------------------
 %Change parameters ONLY here!!
 
-x0          = [0.; 1.0; 5.0; 0.];   %initial state x = [x y dx dy]^T 
-alpha       = deg2rad(90);          %initial attack angle \in [0, 360]
-alpha0      = deg2rad(68);          %Angle of attack (desired)
+x0          = [1.0; 2.0; 0.0; 0.];   %initial state x = [x y dx dy]^T 
+alpha       = 0.5*pi;          %initial attack angle \in [0, 360]
+alpha0      = 0.5*pi;          %Angle of attack (desired)
 l0          = 1.0;                  %Resting length
 m           = 80.0;                 %Mass
 k           = 20000.0;              %Stiffness
@@ -16,13 +16,13 @@ g           = 9.81;                 %Gravity
 
 simulation  = 'single';             %simulation type ('single' or 'double')
 plot_format = 'phases';             %plot format (full/steps/phases/detail)
-anim_format = 'single';             %anim format (single/double)
 load_ws     = false;                %load workspace or calculate anew
 over_time   = false;                %plot over time instead of x(1)
 anim_freq   = 0.0005;               %Frequency of animation updates
+vertical    = true;                 %vertical jump visualize (larger axes)
 
 step_width  = 0.001;                %Stepwidth
-num_steps   = 10;                   %Number of steps
+num_steps   = 4;                    %Number of steps
 
 %--------------------------------------------------------------------------
 
@@ -78,11 +78,11 @@ end
 % + 'steps'  : plot all steps in the trajectory as a different color
 % + 'phases' : plot all phases in the trajectory as the same color
 % + 'detailed: plot all step-phases in the trajectory as the same color
-func_plotting(plot_format, x_list, t_list, over_time)
+func_plotting(plot_format, x_list, t_list, over_time, vertical)
 
 
 %% Animation
 
 % Uncomment this line to open a window with an animation of the leg
 % following the plotted trajectory.
-func_animation(anim_format, x_list{3}, a_phases, anim_freq, xi_vals, l0)
+func_animation(simulation, x_list{3}, a_phases, anim_freq, xi_vals, l0, vertical)

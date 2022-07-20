@@ -34,7 +34,7 @@ t_full      = [];                       %overall time for simulation
 
 a_phases    = {num_steps*2+1};          %array of attack-angle vectors
 
-tspan       = 0.:step_width:5.0;        %timespan for one phase
+tspan       = 0.:step_width:10.0;       %timespan for one phase
 xi_vals     = [];                       %list of all leg positions
 flight_len  = 0;                        %current duration of last flight
 x_phases{1} = [];                       %initialization needed for syntax
@@ -64,7 +64,7 @@ for si = 1:num_steps      % indexing steps
     x_phases{pi}   = [x_phases{pi}; x];
     t_phases{pi}   = [t_phases{pi}; t];
     xi             = xe(1) + l0 * cos(alpha0);
-    xi_vals(si)    = xi;
+    xi_vals        = [xi_vals; xi];
     flight_len     = flight_len + length(x);
     flight_x       = linspace(-5,5,flight_len).';
     a_phases{pi}   = ((alpha0 - alpha)./(1+exp(-flight_x))) + alpha;

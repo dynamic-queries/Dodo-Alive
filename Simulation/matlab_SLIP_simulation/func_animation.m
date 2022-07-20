@@ -1,4 +1,11 @@
-function func_animation(anim_format, x_phases, a_phases, update_frequency, xi_vals, l0)
+function func_animation(anim_format, x_phases, a_phases, update_frequency, xi_vals, l0, vertical)
+
+    if vertical
+        offset = 1.0;
+    else
+        offset = 0.01;
+    end
+
 
     switch anim_format
         case 'single'
@@ -13,7 +20,7 @@ function func_animation(anim_format, x_phases, a_phases, update_frequency, xi_va
             % animation initialization (plot first point and save plot in "h")
             figure
             h = plot(x_phases{1}(1,1), x_phases{1}(1,2));
-            axis([0 max_x+0.01 0 max_y+0.01])
+            axis([0 max_x+offset 0 max_y+0.01])
             title('Animation')
         
             % animation loop

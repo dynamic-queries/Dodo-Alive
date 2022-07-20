@@ -1,4 +1,10 @@
-function func_plotting(format, x_list, t_list, over_time)
+function func_plotting(format, x_list, t_list, over_time, vertical)
+    
+    if vertical
+        offset = 1.0;
+    else
+        offset = 0.01;
+    end
     
     hold on
     switch format
@@ -11,7 +17,7 @@ function func_plotting(format, x_list, t_list, over_time)
                 s = x;
             end
             plot(s(:,1),  x(:,2), 'LineWidth', 2)
-            axis([0 max(s(:,1))+0.01 0 max(x(:,2))+0.01])
+            axis([0 max(s(:,1))+offset 0 max(x(:,2))+0.01])
             title('Trajectory plot (full)')
             grid
             hold off
@@ -35,7 +41,7 @@ function func_plotting(format, x_list, t_list, over_time)
                 max_y = max([max([x{i}(:,2)]); max_y]);
                 fprintf("Time after step %d: %.4f\n", i, t{i}(end))
             end
-            axis([0 max(s{num_steps}(:,1))+0.01 0 max_y+0.01])
+            axis([0 max(s{num_steps}(:,1))+offset 0 max_y+0.01])
             title('Trajectory plot (steps)')
             grid
             hold off
@@ -64,7 +70,7 @@ function func_plotting(format, x_list, t_list, over_time)
                     fprintf("Time after phase %d (stance): %.4f\n", i, t{i}(end))
                 end
             end
-            axis([0 max(s{num_phases}(:,1))+0.01 0 max_y+0.01])
+            axis([0 max(s{num_phases}(:,1))+offset 0 max_y+0.01])
             title('Trajectory plot (phases)')
             grid
             hold off
@@ -96,7 +102,7 @@ function func_plotting(format, x_list, t_list, over_time)
                 max_y = max([max([x{j+2}(:,2)]); max_y]);
                 fprintf("Time after step %d, LO->apex: %.4f\n", i, t{j+2}(end))
             end
-            axis([0 max(s{num_steps*3}(:,1))+0.01 0 max_y+0.01])
+            axis([0 max(s{num_steps*3}(:,1))+offset 0 max_y+0.01])
             title('Trajectory plot (detailed)')
             grid
             legend('Flight phase (from apex)', 'Stance phase', 'Flight phase (to apex)')
