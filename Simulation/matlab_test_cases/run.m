@@ -1,8 +1,7 @@
 clc; clear all;
 
 % current TODO:
-% + insert springs to dynamics
-% + animation
+% + add vertical jump testcase
 
 
 

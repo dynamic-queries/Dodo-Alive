@@ -34,8 +34,8 @@ for i = 1:length(time)
     set(t, 'XData', thigh_x, 'YData', thigh_y, 'LineWidth', 1.5)
     set(s, 'XData', shank_x, 'YData', shank_y, 'LineWidth', 1.5)
 
-    str = strcat('\tau_1: ', num2str(tau1), '\n\tau_2: ', num2str(tau2));
-    a = annotation('textbox',[.2 .5 .3 .3],'String',str,'FitBoxToText','on');
+    str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
+    a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
 
     pause(0.1)
     delete(a)
