@@ -10,18 +10,19 @@ clc; clear all;
 %--------------------------------------------------------------------------
 %Change parameters ONLY here!!
 
-num_joints_links = 2;               %number of joints and linkages (2 or 3)
-length_links     = [0.2, 0.2];      %length of linkages
-mass_links       = [0.18, 0.18];    %masses of linkages
-com_links        = [0.1, 0.1];      %CoM of linkage i in x-dir of frame i
+num_joints_links = 3;               %number of joints and linkages (2 or 3)
+length_links     = [0.2, 0.2, 0.2];       %length of linkages
+mass_links       = [0.18, 0.18, 0.18];    %masses of linkages
+com_links        = [0.1, 0.1, 0.1];       %CoM of linkage i in x-dir of frame i
 spring_stiffness = 100;             %Stiffness of the spring
-q2_resting       = deg2rad(90);     %Angle of q2 so that spring is resting
-init_angle       = [deg2rad(270); 
-                    deg2rad(90)];   %initial angle of joints
+q2_resting       = deg2rad(270);    %Angle of q2 so that spring is resting
+init_angle       = [deg2rad(315); 
+                    deg2rad(270)];  %initial angle of joints
 init_pos_hip     = [0.0; 
                     2.0;
-                    init_angle(1)]; %initial position of base-frame
+                    init_angle(1)];%initial position of base-frame
 mass_toe         = 0.001;           %mass of the toe
+mass_body        = 2;               %mass of the body
 sim_time         = 10.0;            %simulation time of test cases
 time_step        = 0.1;             %width of one time-step in simulation
 
@@ -123,7 +124,14 @@ else
     save trajectory_dpendulum.mat jtrajectories_dpendulum
 end
 
-%jtrajectories_vdrop = testcase_vertical_drop(sim_time, time_step);
+jtrajectories_vdrop = testcase_vertical_drop(length_links, ...
+                                             mass_links, ...
+                                             com_links, ...
+                                             mass_toe, ...
+                                             mass_body, ...
+                                             init_angle, ...
+                                             init_pos_hip, ...
+                                             inverse_kinematics);
 
 %jtrajectories_gjump = testcase_gait_jumping(sim_time, time_step);
 
