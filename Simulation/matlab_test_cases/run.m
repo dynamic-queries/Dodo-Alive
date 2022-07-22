@@ -1,14 +1,17 @@
 clc; clear all;
 
 % current TODO:
-% + add vertical jump testcase
+% + add dynamics for 3 links
+% + add K(t) to dynamics
+% + implement get_torques_vdrop()
+% + fix animate_vdrop()
 
 
 
 %% Initialization
 
 %--------------------------------------------------------------------------
-%Change parameters ONLY here!!
+%Change parameters ONLY here!! (and for testcase generation also in SLIP)
 
 num_joints_links = 3;                   %number of joints and linkages (2 or 3)
 length_links     = [0.18, 0.18, 0.18];  %length of linkages
@@ -87,7 +90,8 @@ inverse_kinematics = get_inverse(num_joints_links, ...
 %   {tau1(q1,q2,q1d,q2d,q1dd,q2dd),
 %    tau2(q1,q2,q1d,q2d,q1dd,q2dd)}
 
-dynamics           = get_dynamics(length_links, ...
+dynamics           = get_dynamics(num_joints_links, ...
+                                  length_links, ...
                                   mass_links, ...
                                   com_links, ...
                                   mass_toe, ...
@@ -114,7 +118,8 @@ dynamics           = get_dynamics(length_links, ...
 if isfile("trajectory_dpendulum.mat")
     load trajectory_dpendulum.mat jtrajectories_dpendulum
 else
-    jtrajectories_dpendulum = testcase_double_pendulum(sim_time, time_step);
+    jtrajectories_dpendulum = testcase_double_pendulum(sim_time, ...
+                                                       time_step);
     save trajectory_dpendulum.mat jtrajectories_dpendulum
 end
 
@@ -125,7 +130,7 @@ end
 %    q2 vector, q2_dot vector, q2_dotdot vector,
 %    q3 vector, q3_dot vector, q3_dotdot vector}
 if isfile("trajectory_vdrop.mat")
-    load trajectory_vdrop.mat jtrajectories_drop
+    load trajectory_vdrop.mat jtrajectories_vdrop
 else
     jtrajectories_vdrop = testcase_vertical_drop(length_links, ...
                                                  mass_links, ...
@@ -138,6 +143,7 @@ else
     save trajectory_vdrop.mat jtrajectories_vdrop
 end
 
+% NOT IMPLEMENTED
 %jtrajectories_gjump = testcase_gait_jumping(sim_time, time_step);
 
 
@@ -146,8 +152,8 @@ end
 % Get the torque profiles for the specified trajectories and compare them
 % to the specifications of the Open Dynamics motors.
 
-%torque_profiles_dpend = get_torques(jtrajectories_dpendulum, dynamics);
-torque_profiles_vdrop = get_torques(jtrajectories_vdrop, dynamics);
+%torque_profiles_dpend = get_torques_dpend(jtrajectories_dpendulum, dynamics);
+torque_profiles_vdrop = get_torques_vdrop(jtrajectories_vdrop, dynamics);
 
 
 
@@ -155,5 +161,5 @@ torque_profiles_vdrop = get_torques(jtrajectories_vdrop, dynamics);
 % Visualize test cases.
 
 %plotting(jtrajectories_dpendulum{1}, torque_profiles);
-%animate_dpend(jtrajectories_dpendulum, torque_profiles, length_links, forward_kinematics)
-animate_vdrop(jtrajectories_vdropm, torque_profiles, length_links, forward_kinematics)
+%animate_dpend(jtrajectories_dpendulum, torque_profiles_dpend, length_links, forward_kinematics)
+animate_vdrop(jtrajectories_vdrop, [], forward_kinematics)

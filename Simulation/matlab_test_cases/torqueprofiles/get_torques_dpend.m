@@ -1,4 +1,4 @@
-function torque_profiles = get_torques(trajectories, dynamics)
+function torque_profiles = get_torques_dpend(trajectories, dynamics)
 
 
 time = trajectories{1};

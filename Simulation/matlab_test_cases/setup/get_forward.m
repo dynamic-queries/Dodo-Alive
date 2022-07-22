@@ -37,8 +37,8 @@ switch num_jl
         % position (x,y) and rotation of frame {3} (ankle) wrt base-frame
         % q3 = 2*pi - q1
         p_03 = @(q1,q2)[cos(q1)*l1+cos(q1+q2)*l2;
-                           sin(q1)*l1+sin(q1+q2)*l2;
-                           q2+2*pi];
+                        sin(q1)*l1+sin(q1+q2)*l2;
+                        q2+2*pi];
 
         % position (x,y) and rotation of EE (toe) wrt base-frame
         p_04 = @(q1,q2)[cos(q1)*l1+cos(q1+q2)*l2+cos(q2+2*pi)*l3;
