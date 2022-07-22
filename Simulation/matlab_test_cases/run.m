@@ -19,8 +19,8 @@ mass_links       = [1.0, 1.0, 1.0];     %masses of linkages
 com_links        = [0.09, 0.09, 0.09];  %CoM of linkage i in x-dir of frame i
 spring_stiffness = 100;                 %Stiffness of the spring
 q2_resting       = deg2rad(270);        %Angle of q2 so that spring is resting
-init_angle       = [deg2rad(315); 
-                    deg2rad(270)];      %initial angle of joints
+init_angle       = [deg2rad(296.5664); 
+                    deg2rad(269.9930)]; %initial angle of joints
 mass_toe         = 0.6;                 %mass of the toe
 mass_body        = 9.66;                %mass of the body
 sim_time         = 10.0;                %simulation time of test cases
@@ -42,8 +42,6 @@ if num_joints_links == 2
 else
     assert((init_angle(2) > pi) || (init_angle(2) < 2*pi))
 end
-
-
 
 
 %% Setup
@@ -125,7 +123,7 @@ end
 
 % returns a cell containing:
 %   {time vector,
-%    base-frame (hip) trajectory vector,
+%    base-frame (hip) trajectory vector in y-direction,
 %    q1 vector, q1_dot vector, q1_dotdot vector,
 %    q2 vector, q2_dot vector, q2_dotdot vector,
 %    q3 vector, q3_dot vector, q3_dotdot vector}
@@ -138,8 +136,7 @@ else
                                                  mass_toe, ...
                                                  mass_body, ...
                                                  init_angle, ...
-                                                 inverse_kinematics, ...
-                                                 forward_kinematics);
+                                                 inverse_kinematics);
     save trajectory_vdrop.mat jtrajectories_vdrop
 end
 

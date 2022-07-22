@@ -33,7 +33,7 @@ switch num_jl
             f       = forward_kin(q_input{:});
             e       = p - f(1:2);
             q       = q + J(q_input{:}) \ e;
-            if norm(e) < 0.001
+            if norm(e) < 0.01
                 break
             end
         end

@@ -4,8 +4,7 @@ function joint_trajectories = testcase_vertical_drop(length_links, ...
                                              mass_toe, ...
                                              mass_body, ...
                                              init_angles, ...
-                                             inverse_kinematics, ...
-                                             forward_kinematics)
+                                             inverse_kinematics)
 
 if isfile("../matlab_SLIP_simulation/ws_SLIP_single.mat")
     load ../matlab_SLIP_simulation/ws_SLIP_single.mat x_list t_list
@@ -37,7 +36,7 @@ mt       = mass_toe;
 mb       = mass_body;
 q1_0     = init_angles(1);
 q2_0     = init_angles(2);
-q3_0     = 2*pi - init_angles(1);         % q3 coupled with q1!!
+q3_0     = 2*pi - init_angles(2);         % q3 coupled with q2!!
 flight_v = abs(sin(q1_0)*l1 + sin(q1_0+q2_0)*l2 + sin(q1_0+q2_0+q3_0)*l3);
 
 % get CoM offset in resting length
@@ -71,7 +70,6 @@ for p = 1:num_phases
     else
         for j = 1:length(com_traj)
             d = com_traj(j,2);
-            tmp = offset(d);
             hip_trajectory{p}(j,1) = com_traj(j,2) + offset(d);
             toe_trajectory{p}(j,1) = 0.0;
             hip_toe_disposition{p}(j,1) = (-1) * hip_trajectory{p}(j);
@@ -95,7 +93,7 @@ q2    = [];
 q3    = [];
 q_old = init_angles;
 for i = 1:length(time)
-    if time(i) == 0.57652
+    if i == 636
         check = 5;
     end
     q = inverse_kinematics([0; ht_disp(i)], q_old);
@@ -103,7 +101,7 @@ for i = 1:length(time)
 
     q1 = [q1; q(1)];
     q2 = [q2; q(2)];
-    q3 = [q3; 2*pi - q(1)];
+    q3 = [q3; 2*pi - q(2)];
 end
 
 

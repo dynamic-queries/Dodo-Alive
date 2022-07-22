@@ -22,9 +22,10 @@ switch num_jl
         l3 = len_links(3);
 
         % derive Jacobian (static matrix) of toe wrt to base-frame
+        % q3 = 2*pi - q2
         J = @(q1,q2) ...
-            [-sin(q1)*l1-sin(q1+q2)*l2 -sin(q1+q2)*l2-sin(q2+2*pi)*l3;
-              cos(q1)*l1+cos(q1+q2)*l2  cos(q1+q2)*l2+cos(q2+2*pi)*l3];
+            [-sin(q1)*l1-sin(q1+q2)*l2-sin(q1+2*pi)*l3 -sin(q1+q2)*l2;
+              cos(q1)*l1+cos(q1+q2)*l2+cos(q1+2*pi)*l3  cos(q1+q2)*l2];
 
         % use Newton's Method to derive angles iteratively
         q = @(p, q_old) ...
