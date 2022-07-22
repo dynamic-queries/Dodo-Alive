@@ -1,4 +1,4 @@
-function animation(trajectories, torques, length_links, forward_kin)
+function animate_dpend(trajectories, torques, length_links, forward_kin)
 
 time      = trajectories{1};
 q1_traj   = trajectories{2};

@@ -1,0 +1,1 @@
+function animate_vdrop(trajectories, torques, length_links, forward_kin)

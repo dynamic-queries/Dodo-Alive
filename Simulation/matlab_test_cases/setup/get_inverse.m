@@ -13,7 +13,7 @@ switch num_jl
 
         % use Newton's Method to derive angles iteratively
         q = @(p, q_old) ...
-            func_newton_method_inverse(p, q_old, J, forward_kin);
+            func_newton_method_inverse(p, q_old, J, forward_kin{3}, num_jl);
 
         inverse_kinematics = q;
 
@@ -22,16 +22,15 @@ switch num_jl
         l3 = len_links(3);
 
         % derive Jacobian (static matrix) of toe wrt to base-frame
-        J = @(q1,q2,q3) ...
-            [-sin(q1)*l1-sin(q1+q2)*l2-sin(q1+q2+q3)*l3 -sin(q1+q2)*l2-sin(q1+q2+q3)*l3 -sin(q1+q2+q3)*l3;
-              cos(q1)*l1+cos(q1+q2)*l2+cos(q1+q2+q3)*l3  cos(q1+q2)*l2+cos(q1+q2+q3)*l3  cos(q1+q2+q3)*l3;
-                                                      1                               1                 1];
+        J = @(q1,q2) ...
+            [-sin(q1)*l1-sin(q1+q2)*l2 -sin(q1+q2)*l2-sin(q2+2*pi)*l3;
+              cos(q1)*l1+cos(q1+q2)*l2  cos(q1+q2)*l2+cos(q2+2*pi)*l3];
 
         % use Newton's Method to derive angles iteratively
         q = @(p, q_old) ...
-            func_newton_method_inverse(p, q_old, J, forward_kin);
+            func_newton_method_inverse(p, q_old, J, forward_kin{4}, num_jl);
 
-        inverse_kinematics = {q()};
+        inverse_kinematics = q;
 
     otherwise
         error("get_inverse() not implemented for joint number <2 and >3.")

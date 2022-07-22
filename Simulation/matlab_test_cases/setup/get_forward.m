@@ -35,14 +35,15 @@ switch num_jl
                         q1+q2];
 
         % position (x,y) and rotation of frame {3} (ankle) wrt base-frame
-        p_03 = @(q1,q2,q3)[cos(q1)*l1+cos(q1+q2)*l2;
+        % q3 = 2*pi - q1
+        p_03 = @(q1,q2)[cos(q1)*l1+cos(q1+q2)*l2;
                            sin(q1)*l1+sin(q1+q2)*l2;
-                           q1+q2+q3];
+                           q2+2*pi];
 
         % position (x,y) and rotation of EE (toe) wrt base-frame
-        p_04 = @(q1,q2,q3)[cos(q1)*l1+cos(q1+q2)*l2+cos(q1+q2+q3)*l3;
-                           sin(q1)*l1+sin(q1+q2)*l2+sin(q1+q2+q3)*l3;
-                           q1+q2+q3];
+        p_04 = @(q1,q2)[cos(q1)*l1+cos(q1+q2)*l2+cos(q2+2*pi)*l3;
+                        sin(q1)*l1+sin(q1+q2)*l2+sin(q2+2*pi)*l3;
+                        q2+2*pi];
         
         % return
         forward_kinematics = {p_01, p_02, p_03, p_04};
