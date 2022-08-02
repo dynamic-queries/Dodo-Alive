@@ -1,9 +1,6 @@
 clc; clear all;
 
 % current TODO:
-% + add dynamics for 3 links
-% + add K(t) to dynamics
-% + implement get_torques_vdrop()
 % + fix animate_vdrop()
 
 
@@ -14,10 +11,14 @@ clc; clear all;
 %Change parameters ONLY here!! (and for testcase generation also in SLIP)
 
 num_joints_links = 3;                   %number of joints and linkages (2 or 3)
+test_case        = 'vdrop';             %run test case (dpend/vdrop/gjump)
+show_tau         = true;                %display tau during animation
+
 length_links     = [0.18, 0.18, 0.18];  %length of linkages
 mass_links       = [1.0, 1.0, 1.0];     %masses of linkages
 com_links        = [0.09, 0.09, 0.09];  %CoM of linkage i in x-dir of frame i
-spring_stiffness = 100;                 %Stiffness of the spring
+spring_stiffness = 20000;               %Stiffness of springs in pulley-spring
+radius_pulley    = 0.0015;                %Radius of pulleys in pulley-spring
 q2_resting       = deg2rad(270);        %Angle of q2 so that spring is resting
 init_angle       = [deg2rad(296.5664); 
                     deg2rad(269.9930)]; %initial angle of joints
@@ -81,12 +82,14 @@ inverse_kinematics = get_inverse(num_joints_links, ...
 
 
 % Get DYNAMICS of our model.
+% RETURN-TYPE: cell containing function handles.
 % Get the torque vector of all joints as function handles, which take a
 % q-vector, qdot-vector and qdotdot-vector as input.
-% ONLY IMPLEMENTED FOR A 2-LINK SYSTEM
-% returns a cell containing:
-%   {tau1(q1,q2,q1d,q2d,q1dd,q2dd),
-%    tau2(q1,q2,q1d,q2d,q1dd,q2dd)}
+%   dynamics
+%   = {tau1(q1,q2,q1d,q2d,q1dd,q2dd),
+%      tau2(q1,q2,q1d,q2d,q1dd,q2dd)}               [2 joints]
+%   = {tau1(q1,q2,q3,q1d,q2d,q3d,q1dd,q2dd,q3dd),
+%      tau2(q1,q2,q3,q1d,q2d,q3d,q1dd,q2dd,q3dd)}   [3 joints]
 
 dynamics           = get_dynamics(num_joints_links, ...
                                   length_links, ...
@@ -94,7 +97,8 @@ dynamics           = get_dynamics(num_joints_links, ...
                                   com_links, ...
                                   mass_toe, ...
                                   spring_stiffness, ...
-                                  q2_resting);
+                                  q2_resting, ...
+                                  radius_pulley);
 
 
 
@@ -110,53 +114,43 @@ dynamics           = get_dynamics(num_joints_links, ...
 % + gait jumping (not implemented)
 
 % returns a cell containing:
-%   {time vector,
-%    q1 vector, q1_dot vector, q1_dotdot vector,
-%    q2 vector, q2_dot vector, q2_dotdot vector}
-if isfile("trajectory_dpendulum.mat")
-    load trajectory_dpendulum.mat jtrajectories_dpendulum
-else
-    jtrajectories_dpendulum = testcase_double_pendulum(sim_time, ...
-                                                       time_step);
-    save trajectory_dpendulum.mat jtrajectories_dpendulum
-end
-
-% returns a cell containing:
-%   {time vector,
-%    base-frame (hip) trajectory vector in y-direction,
-%    q1 vector, q1_dot vector, q1_dotdot vector,
-%    q2 vector, q2_dot vector, q2_dotdot vector,
-%    q3 vector, q3_dot vector, q3_dotdot vector}
-if isfile("trajectory_vdrop.mat")
-    load trajectory_vdrop.mat jtrajectories_vdrop
-else
-    jtrajectories_vdrop = testcase_vertical_drop(length_links, ...
-                                                 mass_links, ...
-                                                 com_links, ...
-                                                 mass_toe, ...
-                                                 mass_body, ...
-                                                 init_angle, ...
-                                                 inverse_kinematics);
-    save trajectory_vdrop.mat jtrajectories_vdrop
-end
-
-% NOT IMPLEMENTED
-%jtrajectories_gjump = testcase_gait_jumping(sim_time, time_step);
+% [dpend] -> {time vector,
+%             q1 vector, q1_dot vector, q1_dotdot vector,
+%             q2 vector, q2_dot vector, q2_dotdot vector}
+% [vdrop] -> {time vector,
+%             base-frame (hip) trajectory vector in y-direction,
+%             q1 vector, q1_dot vector, q1_dotdot vector,
+%             q2 vector, q2_dot vector, q2_dotdot vector,
+%             q3 vector, q3_dot vector, q3_dotdot vector}
+joint_trajectories = specify_testcase(test_case, num_joints_links, ...
+                                      sim_time, time_step, ...
+                                      length_links, ...
+                                      mass_links, ...
+                                      com_links, ...
+                                      mass_toe, ...
+                                      mass_body, ...
+                                      init_angle, ...
+                                      inverse_kinematics);
 
 
 
 %% Torque profiles
-% Get the torque profiles for the specified trajectories and compare them
-% to the specifications of the Open Dynamics motors.
+% Get the torque profiles for the specified testcase.
 
-%torque_profiles_dpend = get_torques_dpend(jtrajectories_dpendulum, dynamics);
-torque_profiles_vdrop = get_torques_vdrop(jtrajectories_vdrop, dynamics);
+torque_profiles = get_torques(test_case, joint_trajectories, dynamics);
 
 
 
 %% Visualize
 % Visualize test cases.
 
-%plotting(jtrajectories_dpendulum{1}, torque_profiles);
-%animate_dpend(jtrajectories_dpendulum, torque_profiles_dpend, length_links, forward_kinematics)
-animate_vdrop(jtrajectories_vdrop, [], forward_kinematics)
+% Plot torque profiles over time.
+plot_torque_profiles(joint_trajectories{1}, torque_profiles);
+
+% Animate specified test case.
+animate(test_case, ...
+        show_tau, ...
+        joint_trajectories, ...
+        torque_profiles, ...
+        length_links, ...
+        forward_kinematics)
