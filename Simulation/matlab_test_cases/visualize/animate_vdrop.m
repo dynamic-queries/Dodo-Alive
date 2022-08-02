@@ -59,7 +59,7 @@ for i = 1:length(time)
     %tau2 = tau2_traj(i);
     %str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
     %a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
-
+    
     pause(0.001)
     %delete(a)
 end

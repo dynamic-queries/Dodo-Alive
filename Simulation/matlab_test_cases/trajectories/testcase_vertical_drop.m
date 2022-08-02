@@ -93,9 +93,6 @@ q2    = [];
 q3    = [];
 q_old = init_angles;
 for i = 1:length(time)
-    if i == 636
-        check = 5;
-    end
     q = inverse_kinematics([0; ht_disp(i)], q_old);
     q_old = q;
 
