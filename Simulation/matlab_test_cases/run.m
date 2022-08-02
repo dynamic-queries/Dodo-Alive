@@ -1,9 +1,5 @@
 clc; clear all;
 
-% current TODO:
-% + fix animate_vdrop()
-
-
 
 %% Initialization
 
@@ -18,7 +14,7 @@ length_links     = [0.18, 0.18, 0.18];  %length of linkages
 mass_links       = [1.0, 1.0, 1.0];     %masses of linkages
 com_links        = [0.09, 0.09, 0.09];  %CoM of linkage i in x-dir of frame i
 spring_stiffness = 20000;               %Stiffness of springs in pulley-spring
-radius_pulley    = 0.0015;                %Radius of pulleys in pulley-spring
+radius_pulley    = 0.0015;              %Radius of pulleys in pulley-spring
 q2_resting       = deg2rad(270);        %Angle of q2 so that spring is resting
 init_angle       = [deg2rad(296.5664); 
                     deg2rad(269.9930)]; %initial angle of joints
