@@ -135,6 +135,14 @@ joint_trajectories = specify_testcase(test_case, num_joints_links, ...
 
 torque_profiles = get_torques(test_case, joint_trajectories, dynamics);
 
+% save results into a mat-file
+saved_name.(test_case) = torque_profiles;
+if isfile('resulting_torque_profiles.mat')
+    save('resulting_torque_profiles.mat', '-struct', 'saved_name', '-append')
+else
+    save('resulting_torque_profiles.mat', '-struct', 'saved_name')
+end
+
 
 
 %% Visualize
@@ -150,3 +158,13 @@ animate(test_case, ...
         torque_profiles, ...
         length_links, ...
         forward_kinematics)
+
+
+
+%% Evaluate
+% Put together all results.
+
+if isfile('resulting_torque_profiles.mat')
+    load resulting_torque_profiles.mat
+end
+
