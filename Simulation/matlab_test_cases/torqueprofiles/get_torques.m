@@ -15,3 +15,12 @@ switch mode
         error("No valid testcase specified.")
 
 end
+
+
+% save results into a mat-file
+saved_name.(mode) = torques;
+if isfile('resulting_torque_profiles.mat')
+    save('resulting_torque_profiles.mat', '-struct', 'saved_name', '-append')
+else
+    save('resulting_torque_profiles.mat', '-struct', 'saved_name')
+end

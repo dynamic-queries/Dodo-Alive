@@ -135,29 +135,24 @@ joint_trajectories = specify_testcase(test_case, num_joints_links, ...
 
 torque_profiles = get_torques(test_case, joint_trajectories, dynamics);
 
-% save results into a mat-file
-saved_name.(test_case) = torque_profiles;
-if isfile('resulting_torque_profiles.mat')
-    save('resulting_torque_profiles.mat', '-struct', 'saved_name', '-append')
-else
-    save('resulting_torque_profiles.mat', '-struct', 'saved_name')
-end
-
 
 
 %% Visualize
 % Visualize test cases.
 
+% Plot joint-angle trajectores over time.
+%plot_joint_trajectories(joint_trajectories);
+
 % Plot torque profiles over time.
-plot_torque_profiles(joint_trajectories{1}, torque_profiles);
+%plot_torque_profiles(joint_trajectories{1}, torque_profiles);
 
 % Animate specified test case.
-animate(test_case, ...
-        show_tau, ...
-        joint_trajectories, ...
-        torque_profiles, ...
-        length_links, ...
-        forward_kinematics)
+%animate(test_case, ...
+%        show_tau, ...
+%        joint_trajectories, ...
+%        torque_profiles, ...
+%        length_links, ...
+%        forward_kinematics)
 
 
 
@@ -166,5 +161,9 @@ animate(test_case, ...
 
 if isfile('resulting_torque_profiles.mat')
     load resulting_torque_profiles.mat
+end
+
+if isfile('resulting_joint_trajectories.mat')
+    load resulting_joint_trajectories.mat
 end
 

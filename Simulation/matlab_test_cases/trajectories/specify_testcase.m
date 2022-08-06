@@ -58,3 +58,12 @@ switch mode
         error("No valid testcase specified.")
 
 end
+
+
+% save results into a mat-file
+saved_name.(mode) = joint_trajectories;
+if isfile('resulting_joint_trajectories.mat')
+    save('resulting_joint_trajectories.mat', '-struct', 'saved_name', '-append')
+else
+    save('resulting_joint_trajectories.mat', '-struct', 'saved_name')
+end
