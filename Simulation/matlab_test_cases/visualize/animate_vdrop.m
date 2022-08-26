@@ -1,12 +1,12 @@
-function animate_vdrop(trajectories, torques, forward_kin)
+function animate_vdrop(show_tau, trajectories, torques, forward_kin)
 
 time      = trajectories{1};
 hip       = trajectories{2};
 q1_traj   = trajectories{3};
 q2_traj   = trajectories{6};
 q3_traj   = trajectories{9};
-%tau1_traj = torques{1};
-%tau2_traj = torques{2};
+tau1_traj = torques{1};
+tau2_traj = torques{2};
 l1     = 0.18;
 l2     = 0.18;
 l3     = 0.18;
@@ -55,13 +55,16 @@ for i = 1:length(time)
     set(s, 'XData', shank_x, 'YData', shank_y, 'LineWidth', 1.5)
     set(f, 'XData',  foot_x, 'YData',  foot_y, 'LineWidth', 1.5)
     
-    %tau1 = tau1_traj(i);
-    %tau2 = tau2_traj(i);
-    %str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
-    %a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
-
-    pause(0.001)
-    %delete(a)
+    if show_tau
+        tau1 = tau1_traj(i);
+        tau2 = tau2_traj(i);
+        str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
+        a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
+        pause(0.00001)
+        delete(a)
+    else
+        pause(0.001)
+    end
 end
 
 legend("Thigh", "Shank", "Toe")

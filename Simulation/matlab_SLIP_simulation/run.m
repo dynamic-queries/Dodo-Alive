@@ -9,9 +9,9 @@ clc; clear all;
 x0          = [1.0; 2.0; 0.0; 0.];   %initial state x = [x y dx dy]^T 
 alpha       = 0.5*pi;          %initial attack angle \in [0, 360]
 alpha0      = 0.5*pi;          %Angle of attack (desired)
-l0          = 0.3697;                %Resting length
+l0          = 0.338732566849599;     %Resting length
 m           = 13.26;                 %Mass
-k           = 10000.0;              %Stiffness
+k           = 20000.0;              %Stiffness
 g           = 9.81;                 %Gravity
 
 simulation  = 'single';             %simulation type ('single' or 'double')

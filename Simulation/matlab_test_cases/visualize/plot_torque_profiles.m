@@ -1,4 +1,4 @@
-function plotting(time, torque_profiles)
+function plot_torque_profiles(time, torque_profiles)
 
 
 hold on

@@ -1,4 +1,4 @@
-function animate_dpend(trajectories, torques, length_links, forward_kin)
+function animate_dpend(show_tau, trajectories, torques, length_links, forward_kin)
 
 time      = trajectories{1};
 q1_traj   = trajectories{2};
@@ -28,17 +28,19 @@ for i = 1:length(time)
     shank_x = linspace(knee(1), toe(1), 50);
     shank_y = linspace(knee(2), toe(2), 50);
 
-    tau1 = tau1_traj(i);
-    tau2 = tau2_traj(i);
-
     set(t, 'XData', thigh_x, 'YData', thigh_y, 'LineWidth', 1.5)
     set(s, 'XData', shank_x, 'YData', shank_y, 'LineWidth', 1.5)
 
-    str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
-    a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
-
-    pause(0.1)
-    delete(a)
+    if show_tau
+        tau1 = tau1_traj(i);
+        tau2 = tau2_traj(i);
+        str = strcat("\tau_1: ", num2str(tau1), "      \tau_2: ", num2str(tau2));
+        a = annotation("textbox",[.2 .5 .3 .3],"String",str,'FitBoxToText','on');
+        pause(0.01)
+        delete(a)
+    else
+        pause(0.01)
+    end
 end
 
 legend("Thigh", "Shank")

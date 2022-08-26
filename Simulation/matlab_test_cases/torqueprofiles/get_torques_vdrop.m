@@ -20,10 +20,16 @@ tau2 = dynamics{2};
 tau1_traj = zeros(length(time),1);
 tau2_traj = zeros(length(time),1);
 
-% TODO: IMPLEMENT TORQUE PROFILES FOR VDROP
-%for i = 1:length(time)
-%    tau1_traj(i) = tau1(q1(i),q1d(i),q1dd(i),q2(i),q2d(i),q2dd(i));
-%    tau2_traj(i) = tau2(q1(i),q1d(i),q1dd(i),q2(i),q2d(i),q2dd(i));
-%end
+% tau = {tau1(q1,q2,q3,q1d,q2d,q3d,q1dd,q2dd,q3dd),
+%        tau2(q1,q2,q3,q1d,q2d,q3d,q1dd,q2dd,q3dd)}
+
+for i = 1:length(time)
+    tau1_traj(i) = tau1(q1(i),q2(i),q3(i), ...
+                        q1d(i),q2d(i),q3d(i), ...
+                        q1dd(i),q2dd(i),q3dd(i));
+    tau2_traj(i) = tau2(q1(i),q2(i),q3(i), ...
+                        q1d(i),q2d(i),q3d(i), ...
+                        q1dd(i),q2dd(i),q3dd(i));
+end
 
 torque_profiles = {tau1_traj, tau2_traj};
