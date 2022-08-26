@@ -1,0 +1,8 @@
+﻿"link_thickness" = 50
+"link_length" = 180
+"cut_depth" = 30
+"cut_width" = 30
+"thigh_cut_depth" = 80
+"foot_cut_depth" = 60
+"foot_cut_width" = 30
+		

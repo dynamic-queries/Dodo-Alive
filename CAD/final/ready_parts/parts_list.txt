@@ -1,0 +1,24 @@
+Spring
+https://www.schweizer-federshop.de/bsk08gri.aspx -> can filter for spring stiffness <9 N/mm. Kenken has 10000 N/m == 10 N/mm
+
+RZF-1274 from this manufacturer,CAD file wasn't available. A placeholder is present in the actual CAD model and the string itself is missing.
+
+
+
+
+
+Gear 9mm
+https://www.maedler.de/product/1643/1618/1034/2739/stirnzahnraeder-aus-polyketon-modul-05?result=28101801
+
+Gear 28mm
+https://www.maedler.de/product/1643/1618/1034/2739/stirnzahnraeder-aus-polyketon-modul-05?result=28105401
+
+
+
+
+
+Bearing 6mm
+https://medias.schaeffler.de/tr/product/rotary/rulmanlar-ve-kayar-yataklar/bilyal%c4%b1-rulmanlar/sabit-bilyal%c4%b1-rulmanlar/686-2z-hlc/p/356144
+
+Bearing 3mm
+https://medias.schaeffler.de/tr/product/rotary/rulmanlar-ve-kayar-yataklar/bilyal%c4%b1-rulmanlar/sabit-bilyal%c4%b1-rulmanlar/683-2z-hlc/p/356137
